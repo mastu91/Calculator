@@ -7,16 +7,13 @@ namespace CaliburnTemplate.ViewModels
 {
     internal class MainViewModel : PropertyChangedBase
     {
-        public MainViewModel(IPaddingService paddingService)
-        {
-            this.PaddingService = paddingService;
-        }
-        
-        public IPaddingService PaddingService { get; }
+        private string output;
+        private readonly CalculationService calculationService;
 
-        public string output;
-        public string firstInput;
-        public string sign;
+        public MainViewModel(CalculationService calculationService)
+        {
+            this.calculationService = calculationService;
+        }
 
         public string Output
         {
@@ -30,50 +27,31 @@ namespace CaliburnTemplate.ViewModels
 
         public void Plus()
         {
-            SetOperator("+");
+            calculationService.SetOperator(output, "+");
+            this.Output = "";
         }
 
         public void Minus()
         {
-            SetOperator("-");
+            calculationService.SetOperator(output, "-");
+            this.Output = "";
         }
 
         public void Multiply()
         {
-            SetOperator("*");
+            calculationService.SetOperator(output, "*");
+            this.Output = "";
         }
 
         public void Divide()
         {
-            SetOperator("/");
+            calculationService.SetOperator(output, "/");
+            this.Output = "";
         }
 
         public void Equal()
         {
-            double numOne = Convert.ToDouble(firstInput);
-            double numTwo = Convert.ToDouble(Output);
-            switch (sign)
-            {
-                case "+":
-                    Output = (numOne + numTwo).ToString();
-                    break;
-                case "-":
-                    Output = (numOne - numTwo).ToString();
-                    break;
-                case "*":
-                    Output = (numOne * numTwo).ToString();
-                    break;
-                case "/":
-                    Output = (numOne / numTwo).ToString();
-                    break;
-            }
-        }
-
-        public void SetOperator(string sign)
-        {
-            firstInput = Output;
-            this.sign = sign;
-            Output = "";
+            this.Output = calculationService.Equal(output);
         }
 
         public void PrintZero()

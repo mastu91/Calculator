@@ -20,7 +20,7 @@ namespace CaliburnTemplate
 
         protected override void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterType<PaddingService>().As<IPaddingService>();
+            builder.RegisterType<CalculationService>().AsSelf();
         }
 
         protected override void ConfigureBootstrapper()
